@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - Island Comfort Furnitures</title>
+  <link rel="stylesheet" href="/Styles/styles.css" />
+</head>
+<body>
+<header>
+  <div class="header">
+    <div class="header-inner">
+      <div class="logo"><img src="/Assets/logo.png" alt="Island Comfort logo" class="logo-img" /></div>
+      <nav aria-label="Primary navigation">
+        <ul class="nav-links">
+          <li><a href="/Pages/index.html">Home</a></li>
+          <li><a href="/Pages/about.html">About</a></li>
+          <li><a href="/Pages/cart.html">Cart</a></li>
+          <li><a href="/Pages/login.html">Login</a></li>
+          <li><a href="/Pages/register.html" class="active">Register</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="main-content form-section">
+  <h2>Create an Account</h2>
+
+  <form id="register-form">
+    <fieldset>
+      <legend style="font-weight:600; margin-bottom:0.5rem;">Account Information</legend>
+
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" required />
+
+      <label for="username">Username</label>
+      <input type="text" id="username" required />
+
+      <label for="dob">Date of Birth</label>
+      <input type="date" id="dob" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" required />
+
+      <label for="confirm-password">Confirm Password</label>
+      <input type="password" id="confirm-password" required />
+
+    </fieldset>
+
+    <div class="form-buttons">
+      <button type="submit">Register</button>
+      <button type="button" class="secondary" onclick="window.location='login.html'">Back to Login</button>
+    </div>
+  </form>
+</main>
+
+<footer>
+  <div class="footer"><p>&copy; 2025 Island Comfort Furnitures.</p></div>
+</footer>
+
+<script src="/Script/script.js"></script>
+<script>
+  // Registration Handling
+  const registerForm = document.getElementById("register-form");
+
+  if (registerForm) {
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const fullname = document.getElementById("fullname").value.trim();
+      const username = document.getElementById("username").value.trim().toLowerCase();
+      const dob = document.getElementById("dob").value;
+      const email = document.getElementById("email").value.trim().toLowerCase();
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm-password").value;
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      // Validate matching passwords
+      if (password !== confirm) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      // Ensure username and email are unique
+      const userExists = users.some((u) => u.username === username || u.email === email);
+      if (userExists) {
+        alert("An account with this username or email already exists.");
+        return;
+      }
+
+      // Store new user with all provided details
+      const newUser = { fullname, username, dob, email, password };
+      users.push(newUser);
+      localStorage.setItem("users", JSON.stringify(users));
+
+      alert("Account created successfully!");
+      window.location = "login.html";
+    });
+  }
+</script>
+</body>
+</html>
